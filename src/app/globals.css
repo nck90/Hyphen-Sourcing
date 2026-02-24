@@ -1,0 +1,264 @@
+@import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css");
+@import "tailwindcss";
+
+/* ─────────────────────────────────────────────────────────────
+   HYPHENSOSING DESIGN SYSTEM v8 — LOUD.KR EXACT CLONE
+   Style: Utilitarian, Dense, Boxy borders, Orange Primary Accent
+───────────────────────────────────────────────────────────── */
+
+:root {
+  /* Core Colors */
+  --primary: #FF5000;
+  /* Loud.kr Signature Orange */
+  --primary-hover: #E64800;
+  /* Darker Loud Orange */
+  --primary-light: #FFF0E6;
+  /* Very light orange background */
+
+  --accent: #222222;
+  /* Loud uses deep black/charcoal for strong emphasis */
+
+  /* Surface & Background */
+  --bg: #F5F5F5;
+  /* Loud.kr standard gray background for listings */
+  --surface: #FFFFFF;
+  /* Pure White for cards/containers */
+  --surface-2: #F8F9FA;
+  /* Very subtle off-white for table headers/boxes */
+
+  /* Typography Colors */
+  --text-primary: #333333;
+  /* Standard dark gray/black text */
+  --text-secondary: #666666;
+  /* Secondary medium gray */
+  --text-muted: #999999;
+  /* Light gray for dates/meta */
+  --text-inverse: #FFFFFF;
+
+  /* Borders (Critical for Loud.kr style) */
+  --border: #E5E5E5;
+  /* Thin, crisp gray border */
+  --border-light: #F0F0F0;
+  --border-dark: #333333;
+
+  /* Modest Radii (Loud.kr is very structural/boxy) */
+  --radius-sm: 4px;
+  --radius-md: 6px;
+  --radius-lg: 8px;
+  --radius-xl: 12px;
+  --radius-pill: 9999px;
+
+  /* Minimal Shadows (Loud.kr relies on borders, not shadows) */
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.03);
+  --shadow-base: none;
+  /* Removed */
+  --shadow-hover: 0 4px 12px rgba(0, 0, 0, 0.08);
+  /* Only on specific hover interactions */
+}
+
+@theme {
+  --color-primary: var(--primary);
+  --color-primary-hover: var(--primary-hover);
+  --color-primary-light: var(--primary-light);
+  --color-accent: var(--accent);
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-text-primary: var(--text-primary);
+  --color-text-secondary: var(--text-secondary);
+  --color-text-muted: var(--text-muted);
+  --color-border: var(--border);
+  --color-border-light: var(--border-light);
+  --color-border-dark: var(--border-dark);
+
+  --font-sans: "Pretendard Variable", Pretendard, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+
+/* ─── Base Auto-Reset ─── */
+@layer base {
+  * {
+    box-sizing: border-box;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background-color: var(--bg);
+    color: var(--text-primary);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    word-break: keep-all;
+    overflow-wrap: break-word;
+    letter-spacing: -0.5px;
+    /* Loud.kr standard tight tracking */
+    line-height: 1.5;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-weight: 700;
+    line-height: 1.3;
+    letter-spacing: -0.5px;
+  }
+}
+
+/* ─── Loud.kr Style Utilities ─── */
+@layer utilities {
+
+  /* 1. Base Card Structure (Boxy, Bordered, White) */
+  .card-loud {
+    background-color: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    /* Very small curve */
+    box-shadow: none;
+    /* No shadow by default */
+    transition: box-shadow 0.2s, border-color 0.2s;
+  }
+
+  .card-loud:hover {
+    box-shadow: var(--shadow-hover);
+    border-color: #d1d1d1;
+  }
+
+  /* 2. Buttons (Square-ish, Bold) */
+  .btn-primary {
+    background-color: var(--primary);
+    color: var(--text-inverse);
+    font-weight: 700;
+    font-size: 14px;
+    border-radius: var(--radius-sm);
+    /* Almost square */
+    padding: 0 20px;
+    height: 48px;
+    transition: background-color 0.2s;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .btn-primary:hover {
+    background-color: var(--primary-hover);
+  }
+
+  .btn-secondary {
+    background-color: var(--accent);
+    color: var(--text-inverse);
+    font-weight: 700;
+    font-size: 14px;
+    border-radius: var(--radius-sm);
+    padding: 0 20px;
+    height: 48px;
+    transition: background-color 0.2s;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .btn-secondary:hover {
+    background-color: #000000;
+  }
+
+  .btn-outline {
+    background-color: var(--surface);
+    color: var(--text-primary);
+    font-weight: 700;
+    font-size: 14px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 0 20px;
+    height: 48px;
+    transition: all 0.2s;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .btn-outline:hover {
+    border-color: var(--text-primary);
+    background-color: var(--surface-2);
+  }
+
+  /* 3. Badges */
+  .badge-orange {
+    background-color: var(--primary);
+    color: white;
+    font-size: 12px;
+    font-weight: 700;
+    padding: 2px 8px;
+    border-radius: 3px;
+    display: inline-flex;
+    align-items: center;
+    white-space: nowrap;
+  }
+
+  .badge-gray {
+    background-color: var(--surface-2);
+    color: var(--text-secondary);
+    font-size: 12px;
+    font-weight: 500;
+    padding: 2px 8px;
+    border: 1px solid var(--border);
+    border-radius: 3px;
+    display: inline-flex;
+    align-items: center;
+    white-space: nowrap;
+  }
+
+  /* Standard Inputs (Square, thick gray border focus) */
+  .input-loud {
+    width: 100%;
+    background-color: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 12px 14px;
+    font-size: 14px;
+    color: var(--text-primary);
+    transition: border-color 0.2s;
+    height: 48px;
+  }
+
+  .input-loud:focus {
+    outline: none;
+    border-color: var(--primary);
+  }
+
+  .fadeIn {
+    animation: fadeInAnimation 0.3s ease-out forwards;
+  }
+}
+
+@keyframes fadeInAnimation {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+/* ─── Scrollbar ─── */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg);
+}
+
+::-webkit-scrollbar-thumb {
+  background: #cccccc;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #999999;
+}

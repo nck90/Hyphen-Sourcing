@@ -1,0 +1,101 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("POSTGRES_PRISMA_URL")
+  directUrl = env("POSTGRES_URL_NON_POOLING")
+}
+
+model User {
+  id        String   @id @default(uuid())
+  email     String   @unique
+  password  String
+  name      String
+  role         String   @default("STUDENT") // "CLIENT" | "STUDENT" | "ADMIN"
+  univ         String?  
+  phone        String?
+  bio          String?
+  portfolioUrl String?
+  jobRole      String?
+  verified     Boolean  @default(false)
+  verificationCode String?
+  verificationExpires DateTime?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relationships
+  contestsOwned Contest[]     @relation("ClientContests")
+  teamsLed      Team[]        @relation("TeamLeader")
+  teamMembers   TeamMember[]
+}
+
+model Contest {
+  id          String   @id @default(uuid())
+  title       String
+  description String
+  prize       String
+  type        String
+  tags        String   // comma separated
+  deadline        DateTime
+  status          String   @default("접수중") // "접수중" | "심사중" | "우승작 선정"
+  urgent          Boolean  @default(false)
+  views           Int      @default(0)
+  interestedCount Int      @default(0)
+  createdAt       DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // Relations
+  clientId    String
+  client      User      @relation("ClientContests", fields: [clientId], references: [id], onDelete: Cascade)
+  teams       Team[]    // Teams that are participating (via Applications)
+  applications Application[]
+}
+
+model Team {
+  id          String   @id @default(uuid())
+  name        String
+  inviteCode  String   @unique @default(uuid()) // Link to invite members
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // Relations
+  leaderId    String
+  leader      User      @relation("TeamLeader", fields: [leaderId], references: [id], onDelete: Cascade)
+  contestId   String
+  contest     Contest   @relation(fields: [contestId], references: [id], onDelete: Cascade)
+  members     TeamMember[]
+  application Application?
+}
+
+model TeamMember {
+  id        String   @id @default(uuid())
+  joinedAt  DateTime @default(now())
+
+  // Relations
+  teamId    String
+  team      Team     @relation(fields: [teamId], references: [id], onDelete: Cascade)
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([teamId, userId])
+}
+
+model Application {
+  id            String   @id @default(uuid())
+  repoUrl       String?
+  demoUrl       String?
+  pitchUrl      String?
+  status        String   @default("SUBMITTED") // "SUBMITTED" | "PASSED" | "REJECTED"
+  submittedAt   DateTime @default(now())
+
+  // Relations
+  teamId        String   @unique
+  team          Team     @relation(fields: [teamId], references: [id], onDelete: Cascade)
+  contestId     String
+  contest       Contest  @relation(fields: [contestId], references: [id], onDelete: Cascade)
+}
